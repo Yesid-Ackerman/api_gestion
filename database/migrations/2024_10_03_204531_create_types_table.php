@@ -18,6 +18,10 @@ return new class extends Migration
             // ['Ingreso', 'Egreso'])
             $table->timestamps();
         });
+        DB::table('types')->insert([
+            ['id' => 1 ,'type' => 'Ingreso'],
+            ['id' => 2 ,'type' => 'Egreso'],
+        ]);
     }
 
     /**

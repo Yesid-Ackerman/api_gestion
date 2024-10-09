@@ -25,7 +25,7 @@ Route::prefix('transactions')->group(function(){
     Route::get('/create', [TransactionController::class, 'create'])->name('transactions.create');
     Route::post('/store', [TransactionController::class, 'store'])->name('transactions.store');
     Route::get('/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
-    Route::put('/update/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
+    Route::put('/update/{id}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/delete/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 });
 

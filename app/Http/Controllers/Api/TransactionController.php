@@ -46,7 +46,7 @@ class TransactionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, transaction $transaction)
+    public function update(Request $request, transaction $id)
     {
         $request->validate([
             'date' => 'required|date',
@@ -55,7 +55,7 @@ class TransactionController extends Controller
             'reason' => 'required|string',
         ]);
 
-        $transaction->update($request->all());
+        $id->update($request->all());
 
         return response()->json(['message' => 'Transacción actualizada correctamente.']);
     }
