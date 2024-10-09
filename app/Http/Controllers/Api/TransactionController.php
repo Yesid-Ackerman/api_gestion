@@ -8,52 +8,65 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = transaction::all();
         return response()->json($transactions);
     }
 
-    // public function create()
-    // {
-    //     return view('transactions.create');
-    // }
-
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
             'date' => 'required|date',
-            'type' => 'required',
+            'type_id' => 'required|exists:types,id',
             'amount' => 'required|numeric',
             'reason' => 'required|string',
         ]);
 
-        Transaction::create($request->all());
-        return 'Transacción registrada';
+        transaction::create($request->all());
+
+        return response()->json(['message' => 'Transacción registrada correctamente.'], 201);
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show($id)
     {
         $transaction = transaction::findOrFail($id);
         return response()->json($transaction);
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, transaction $transaction)
     {
         $request->validate([
             'date' => 'required|date',
-            'type' => 'required',
+            'type_id' => 'required|exists:types,id',
             'amount' => 'required|numeric',
-            'reason' => 'required|string'
+            'reason' => 'required|string',
         ]);
 
         $transaction->update($request->all());
-        return response()->json(['message' => 'Actualizado Correctamente']);
+
+        return response()->json(['message' => 'Transacción actualizada correctamente.']);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(transaction $transaction)
     {
         $transaction->delete();
-        return response()->json(['message' => 'Eliminado Correctamente']);
+
+        return response()->json(['message' => 'Transacción eliminada correctamente.']);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,12 @@ Route::prefix('transactions')->group(function(){
     Route::get('/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
     Route::put('/update/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/delete/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+});
+
+Route::prefix('types')->group(function(){
+    Route::get('index', [TypeController::class, 'index']);
+    Route::post('store', [TypeController::class, 'store']);
+    Route::get('show/{id}', [TypeController::class, 'show']);
+    Route::put('update/{type}', [TypeController::class, 'update']);
+    Route::delete('delete/{type}', [TypeController::class, 'destroy']);
 });
