@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -13,7 +14,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = transaction::all();
+        $transactions = transaction::included()->get();
         return response()->json($transactions);
     }
 
@@ -22,16 +23,11 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'type_id' => 'required|exists:types,id',
-            'amount' => 'required|numeric',
-            'reason' => 'required|string',
-        ]);
-
-        transaction::create($request->all());
-
-        return response()->json(['message' => 'Transacción registrada correctamente.'], 201);
+        $data = $request->all();
+        $user_id = Auth::id();
+        $data['user_id'] = $user_id;
+        $transaction = transaction::create($data);
+        return response()->json( $transaction);
     }
 
     /**
@@ -48,14 +44,10 @@ class TransactionController extends Controller
      */
     public function update(Request $request, transaction $id)
     {
-        $request->validate([
-            'date' => 'required|date',
-            'type_id' => 'required|exists:types,id',
-            'amount' => 'required|numeric',
-            'reason' => 'required|string',
-        ]);
-
-        $id->update($request->all());
+        $data = $request->all();
+        $user_id = Auth::user()->id;
+        $data['user_id'] = $user_id;
+        $id -> update($data);
 
         return response()->json(['message' => 'Transacción actualizada correctamente.']);
     }

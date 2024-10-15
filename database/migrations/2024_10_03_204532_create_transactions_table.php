@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('type_id')->references('id')->on('types');
             $table->decimal('amount', 10, 2);
             $table->string('reason');
+            $table->foreignId('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

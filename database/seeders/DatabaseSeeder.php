@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Type;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'hola@gmail.com',
             'password' => '123'
         ]);
+        // $this->call(Type::class);
     }
 }

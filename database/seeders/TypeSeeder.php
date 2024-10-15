@@ -12,9 +12,9 @@ class TypeSeeder extends Seeder
      */
     public function run()
     {
-        Type::insert([
-            ['type' => 'Ingreso'],
-            ['type' => 'Egreso'],
-        ]);
+        // Type::insert([
+        //     ['type' => 'Ingreso'],
+        //     ['type' => 'Egreso'],
+        // ]);
     }
 }

@@ -19,31 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
 
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
     'prefix' => 'auth'
 
 ], function ($router) {
 
-    Route::post('login', [AuthController::class,'login']);
+    Route::post('login', [AuthController::class,'login'])->withoutMiddleware('auth:api');
     Route::post('logout', [AuthController::class,'logout']);
     Route::post('refresh', [AuthController::class,'refresh']);
     Route::post('me', [AuthController::class,'me']);
 
 });
 
-Route::prefix('transactions')->group(function(){
-    Route::get('/index', [TransactionController::class, 'index'])->name('transactions.index');
-    Route::get('/create', [TransactionController::class, 'create'])->name('transactions.create');
-    Route::post('/store', [TransactionController::class, 'store'])->name('transactions.store');
-    Route::get('/show/{id}', [TransactionController::class, 'show'])->name('transactions.show');
-    Route::put('/update/{id}', [TransactionController::class, 'update'])->name('transactions.update');
-    Route::delete('/delete/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
-});
+Route::group([
 
-Route::prefix('types')->group(function(){
-    Route::get('index', [TypeController::class, 'index']);
-    Route::post('store', [TypeController::class, 'store']);
-    Route::get('show/{id}', [TypeController::class, 'show']);
-    Route::put('update/{type}', [TypeController::class, 'update']);
-    Route::delete('delete/{type}', [TypeController::class, 'destroy']);
+    'middleware' => 'auth:api'
+
+], function ($router) {
+    Route::apiResource('transactions',TransactionController::class);
+    Route::apiResource('types',TypeController::class);
 });
